@@ -1,5 +1,8 @@
 package org.jozif;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Problem2 {
     /**
      * 给定两个非空链表来代表两个非负数，位数按照逆序方式存储，它们的每个节点只存储单个数字。将这两数相加会返回一个新的链表。
@@ -21,8 +24,8 @@ public class Problem2 {
             int value = 0;
             lCurr = new ListNode(nextValue);
             nextValue = 0;
-            if (l1.val + l2.val >= 10) {
-                lCurr.val += (l1.val + l2.val) % 10;
+            if (l1.val + l2.val + lCurr.val >= 10) {
+                lCurr.val = (l1.val + l2.val + lCurr.val) % 10;
                 nextValue = 1;
             } else {
                 lCurr.val += l1.val + l2.val;
@@ -36,48 +39,53 @@ public class Problem2 {
         }
         while (nextValue == 1) {
             if (l1 != null) {
-                if (l1.val + nextValue >= 10){
+                if (l1.val + nextValue >= 10) {
                     lCurr = new ListNode(0);
                     nextValue = 1;
                     lRear.next = lCurr;
                     lRear = lRear.next;
                 } else {
-                    lCurr = new ListNode(l1.val+1);
+                    lCurr = new ListNode(l1.val + 1);
                     lRear.next = lCurr;
                     lRear = lRear.next;
                     nextValue = 0;
                 }
-
+                l1 = l1.next;
             }
             if (l2 != null) {
-                if (l2.val + nextValue >= 10){
+                if (l2.val + nextValue >= 10) {
                     lCurr = new ListNode(0);
                     nextValue = 1;
                     lRear.next = lCurr;
                     lRear = lRear.next;
                 } else {
-                    lCurr = new ListNode(l2.val+1);
+                    lCurr = new ListNode(l2.val + 1);
                     lRear.next = lCurr;
                     lRear = lRear.next;
                     nextValue = 0;
                 }
-
+                l2 = l2.next;
+            }
+            if (l1 == null && l2 == null && nextValue != 0) {
+                lCurr = new ListNode(nextValue);
+                lRear.next = lCurr;
+                nextValue = 0;
             }
         }
 
 
         if (l1 != null) {
-            lCurr = new ListNode(l1.val);
+            lCurr = l1;
             lRear.next = lCurr;
 
         }
         if (l2 != null) {
-            lCurr = new ListNode(l2.val);
+            lCurr = l2;
             lRear.next = lCurr;
 
         }
 
-
+        ListNodeToArray(lHead.next);
         return lHead.next;
     }
 
@@ -108,5 +116,15 @@ public class Problem2 {
             lRear = lRear.next;
         }
         return lHead.next;
+    }
+
+    public void ListNodeToArray(ListNode l) {
+        List result = new ArrayList();
+
+        while (null != l) {
+            result.add(l.val);
+            l = l.next;
+        }
+        System.out.println(result.toString());
     }
 }

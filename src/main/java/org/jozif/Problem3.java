@@ -19,7 +19,7 @@ public class Problem3 {
      * <p>
      * 给定 "pwwkew" ，最长子串是 "wke" ，长度是3。请注意答案必须是一个子串，"pwke" 是 子序列 而不是子串。
      */
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring2(String s) {
         System.out.println("string: " + s);
         Map<Character, List<Integer>> map = new HashMap<>();
         int longestSubstringLen = 0;
@@ -86,6 +86,24 @@ public class Problem3 {
         }
 
         System.out.println("longestSubstring: " + longestSubstring);
+        return longestSubstringLen;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        int longestSubstringLen = 0;
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < s.length(); i++) {
+            int substringLen = 0;
+            for (int j = 1; j < s.length() - i; j++){
+                if (chars[i] == chars[j]){
+                    substringLen = j - i;
+                    break;
+                }
+            }
+            if (substringLen > longestSubstringLen) {
+                longestSubstringLen = substringLen;
+            }
+        }
         return longestSubstringLen;
     }
 }

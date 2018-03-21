@@ -85,7 +85,7 @@ public class Problem2 {
 
         }
 
-        ListNodeToArray(lHead.next);
+        System.out.println("计算结果: " + ListNodeToList(lHead.next).toString());
         return lHead.next;
     }
 
@@ -118,13 +118,13 @@ public class Problem2 {
         return lHead.next;
     }
 
-    public void ListNodeToArray(ListNode l) {
+    public List ListNodeToList(ListNode l) {
         List result = new ArrayList();
 
         while (null != l) {
             result.add(l.val);
             l = l.next;
         }
-        System.out.println(result.toString());
+        return result;
     }
 }

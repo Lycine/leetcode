@@ -17,12 +17,8 @@ public class Problem1 {
         for (int i = 0; i < nums.length; i++) {
             for (int j = 1; j < nums.length - i; j++) {
                 if (nums[i] + nums[j + i] == target) {
-//                    System.out.println("true num1: " + nums[i] + "num2: " + nums[j+i] +"{"+i+","+j+i+"}");
                     return new int[]{i, j + i};
                 }
-//                else {
-//                    System.out.println("num1: " + nums[i] + "num2: " + nums[j+i]);
-//                }
             }
         }
         return null;

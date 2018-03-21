@@ -2,10 +2,7 @@ package org.jozif;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Problem3 {
     /**
@@ -37,7 +34,7 @@ public class Problem3 {
             }
         }
 
-        if (map.size() == s.length() ){
+        if (map.size() == s.length()) {
             longestSubstringLen = s.length();
             substring = s;
             longestSubstring = substring;
@@ -49,25 +46,25 @@ public class Problem3 {
                     int substringLen = 1;
                     if (substringLen > longestSubstringLen) {
                         longestSubstringLen = substringLen;
-                        substring = s.substring(list.get(0),list.get(0)+1);
+                        substring = s.substring(list.get(0), list.get(0) + 1);
                         longestSubstring = substring;
                     }
                 }
                 if (list.size() > 1) {
                     for (int k = 1, j = 0; k < list.size(); k++, j++) {
                         int substringLen = 0;
-                        if (list.get(k) - list.get(j) == 1){
+                        if (list.get(k) - list.get(j) == 1) {
                             if (map.size() > 1) {
                                 substringLen = 2;
-                                substring = s.substring(list.get(j),list.get(k));
+                                substring = s.substring(list.get(j), list.get(k));
                                 substring += substring;
                             } else {
-                                substringLen =1 ;
-                                substring = s.substring(list.get(j),list.get(k));
+                                substringLen = 1;
+                                substring = s.substring(list.get(j), list.get(k));
                             }
                         } else {
                             substringLen = list.get(k) - list.get(j);
-                            substring = s.substring(list.get(j),list.get(k));
+                            substring = s.substring(list.get(j), list.get(k));
                         }
                         if (substringLen > longestSubstringLen) {
                             longestSubstringLen = substringLen;
@@ -89,19 +86,45 @@ public class Problem3 {
         return longestSubstringLen;
     }
 
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring1(String s) {
         int longestSubstringLen = 0;
         char[] chars = s.toCharArray();
-        for (int i = 0; i < s.length(); i++) {
+        boolean flag = true;
+        for (int i = 0; i < s.length() && flag; i++) {
             int substringLen = 0;
-            for (int j = 1; j < s.length() - i; j++){
-                if (chars[i] == chars[j]){
+            for (int j = i + 1; j < s.length() - i; j++) {
+                System.out.println("i: " + chars[i] + ", j: " + chars[j]);
+                if (chars[i] == chars[j]) {
                     substringLen = j - i;
-                    break;
                 }
             }
             if (substringLen > longestSubstringLen) {
                 longestSubstringLen = substringLen;
+            }
+        }
+        return longestSubstringLen;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        int longestSubstringLen = 0;
+        for (int i = 0; i < s.length() && s.length() - i > longestSubstringLen; i++) {
+            for (int j = i + 1; j < (s.length() + 1); j++) {
+                if ((j - i) > longestSubstringLen) {
+                    String substring = s.substring(i, j);
+                    System.out.println(substring);
+                    List<String> substringList = new ArrayList<>();
+                    Set<String> substringSet = new HashSet<>();
+                    for (char c : substring.toCharArray()) {
+                        substringList.add(String.valueOf(c));
+                        substringSet.add(String.valueOf(c));
+                    }
+                    if (substringList.size() == substringSet.size()) {
+                        System.out.println("!!!"+substring);
+                        longestSubstringLen = substring.length();
+                    } else {
+                       break;
+                    }
+                }
             }
         }
         return longestSubstringLen;

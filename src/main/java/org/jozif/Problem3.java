@@ -16,7 +16,7 @@ public class Problem3 {
      * <p>
      * 给定 "pwwkew" ，最长子串是 "wke" ，长度是3。请注意答案必须是一个子串，"pwke" 是 子序列 而不是子串。
      */
-    public int lengthOfLongestSubstring2(String s) {
+    public int lengthOfLongestSubstring1(String s) {
         System.out.println("string: " + s);
         Map<Character, List<Integer>> map = new HashMap<>();
         int longestSubstringLen = 0;
@@ -86,7 +86,7 @@ public class Problem3 {
         return longestSubstringLen;
     }
 
-    public int lengthOfLongestSubstring1(String s) {
+    public int lengthOfLongestSubstring2(String s) {
         int longestSubstringLen = 0;
         char[] chars = s.toCharArray();
         boolean flag = true;
@@ -105,13 +105,15 @@ public class Problem3 {
         return longestSubstringLen;
     }
 
-    public int lengthOfLongestSubstring(String s) {
+    //超时
+    public int lengthOfLongestSubstring3(String s) {
         int longestSubstringLen = 0;
-        for (int i = 0; i < s.length() && s.length() - i > longestSubstringLen; i++) {
-            for (int j = i + 1; j < (s.length() + 1); j++) {
+        for (int i = 0; i < s.length() && s.length() - i > longestSubstringLen && i < 100; i++) {
+
+            for (int j = i + 1; j < (s.length() + 1) && j < 100; j++) {
                 if ((j - i) > longestSubstringLen) {
                     String substring = s.substring(i, j);
-                    System.out.println(substring);
+//                    System.out.println(substring);
                     List<String> substringList = new ArrayList<>();
                     Set<String> substringSet = new HashSet<>();
                     for (char c : substring.toCharArray()) {
@@ -119,11 +121,35 @@ public class Problem3 {
                         substringSet.add(String.valueOf(c));
                     }
                     if (substringList.size() == substringSet.size()) {
-                        System.out.println("!!!"+substring);
+//                        System.out.println("!!!"+substring);
                         longestSubstringLen = substring.length();
                     } else {
-                       break;
+                        break;
                     }
+                }
+            }
+        }
+        return longestSubstringLen;
+    }
+
+
+    public int lengthOfLongestSubstring(String s) {
+        int longestSubstringLen = 0;
+        for (int i = 0; i < s.length() && s.length() - i > longestSubstringLen && i < 100; i++) {
+            for (int j = i + 1; j < (s.length() + 1) && j < 100; j++) {
+                String substring = s.substring(i, j);
+                //TODO substring改为chars试试
+                Set<String> substringSet = new HashSet<>();
+                for (char c : substring.toCharArray()) {
+                    if (substringSet.contains(String.valueOf(c))) {
+                        longestSubstringLen = Math.max(substringSet.size(), longestSubstringLen);
+                        break;
+                    } else {
+                        substringSet.add(String.valueOf(c));
+                    }
+                }
+                if (substringSet.size() == substring.length()) {
+                    longestSubstringLen = Math.max(substringSet.size(), longestSubstringLen);
                 }
             }
         }
